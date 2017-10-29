@@ -40,6 +40,7 @@ public class AgentController {
 
         Alien a1 = Alien.builder().sizeOfBag(3).alienStates(new HashSet<>()).build();
         Alien a2 = Alien.builder().sizeOfBag(2).alienStates(new HashSet<>()).build();
+        Alien a3 = Alien.builder().sizeOfBag(2).alienStates(new HashSet<>()).build();
 
         Resource r1 = new Resource(10);
 
@@ -54,6 +55,7 @@ public class AgentController {
         planet.getField()[5][10].setItem(a1);
         planet.getField()[7][13].setItem(a2);
         planet.getField()[10][5].setItem(r1);
+        planet.getField()[5][7].setItem(a3);
     }
 
     @GetMapping("generate")
