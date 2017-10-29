@@ -2,11 +2,13 @@ package com.sanevich.mas.service;
 
 import com.sanevich.mas.model.*;
 import com.sanevich.mas.model.item.*;
+import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.sanevich.mas.model.item.AlienState.*;
 
@@ -16,17 +18,24 @@ public class Steps {
 
     private static int stepCount = 0;
 
-    public static void doStep(Planet planet) throws IOException {
-        //showMap(planet);
+    private static Planet planet;
+
+    public static void doStep(Planet planetOfAlien) throws IOException {
+        Steps.planet = planetOfAlien;
         for (int i = 0; i < planet.getField().length; i++) {
             for (int j = 0; j < planet.getField()[i].length; j++) {
+                planet.getField()[i][j].setX(j);
+                planet.getField()[i][j].setY(i);
                 if (planet.getField()[i][j].getItem() instanceof Alien) {
                     //в начале все агенты переходят в состояние SEARCHING
                     if (stepCount == 0) {
                         ((Alien) planet.getField()[i][j].getItem()).getAlienStates().add(SEARCHING);
                     }
-                    //если в данной ячейке агент - он должен куда-нибудь сдвинуться для поиска ресурсов
-                    makeSimpleStep(i,j,planet.getField());
+                    //если в данной ячейке агент в состоянии SEARCHING - он должен куда-нибудь сдвинуться для поиска
+                    //ресурсов
+                    if (((Alien) planet.getField()[i][j].getItem()).getAlienStates().contains(SEARCHING)) {
+                        makeSimpleStep(i, j, planet.getField());
+                    }
                 }
             }
         }
@@ -100,54 +109,60 @@ public class Steps {
     }
 
     private static void moveRightFromLeftCorner(Cell[] cells, int x, AlienState upOrDown) {
-        checkIfResource(cells[x], cells[x + 1]);
+        Cell required = new Cell(cells[x + 1]);
+        checkIfResource(cells[x], required);
         cells[x + 1].setItem(cells[x].getItem());
         ((Alien) cells[x + 1].getItem()).getAlienStates().remove(upOrDown);
         ((Alien) cells[x + 1].getItem()).getAlienStates().remove(DOWN);
         ((Alien) cells[x + 1].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP,
                 FORWARD, SEARCHING, upOrDown == DOWN ? UP : DOWN));
-        cells[x].setItem(null);
+        cells[x].setItem(required.getItem());
     }
 
 
     private static void moveLeftFromRightCorner(Cell[] cells, int x, AlienState upOrDown) {
+        Cell required = new Cell(cells[x-1]);
         checkIfResource(cells[x], cells[x-1]);
         cells[x - 1].setItem(cells[x].getItem());
         ((Alien) cells[x - 1].getItem()).getAlienStates().remove(FORWARD);
         ((Alien) cells[x - 1].getItem()).getAlienStates().remove(upOrDown);
         ((Alien) cells[x - 1].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, BACKWARD,
                 SEARCHING, upOrDown == UP ? DOWN : UP));
-        cells[x].setItem(null);
+        cells[x].setItem(required.getItem());
     }
 
 
     private static void moveUp(int y, int x, Cell[][] field, AlienState forwardOrBackward) {
+        Cell required = new Cell(field[y - 1][x]);
         checkIfResource(field[y][x], field[y - 1][x]);
         field[y - 1][x].setItem(field[y][x].getItem());
         ((Alien) field[y - 1][x].getItem()).getAlienStates().remove(forwardOrBackward);
         ((Alien) field[y - 1][x].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP,
                 forwardOrBackward == FORWARD ? BACKWARD : FORWARD, SEARCHING, UP));
-        field[y][x].setItem(null);
+        field[y][x].setItem(required.getItem());
     }
 
     private static void moveDown(int y, int x, Cell[][] field, AlienState forwardOrBackward) {
+        Cell required = new Cell(field[y + 1][x]);
         checkIfResource(field[y][x], field[y + 1][x]);
         field[y + 1][x].setItem(field[y][x].getItem());
         ((Alien) field[y + 1][x].getItem()).getAlienStates().remove(forwardOrBackward);
         ((Alien) field[y + 1][x].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, forwardOrBackward ==
                         FORWARD ? BACKWARD : FORWARD,
                 SEARCHING, DOWN));
-        field[y][x].setItem(null);
+        field[y][x].setItem(required.getItem());
     }
 
     private static void moveLeft(Cell[] cells, int x) {
-        checkIfResource(cells[x], cells[x - 1]);
+        Cell required = new Cell(cells[x - 1]);
+        checkIfResource(cells[x], required);
         cells[x - 1].setItem(cells[x].getItem());
         ((Alien) cells[x - 1].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, BACKWARD, SEARCHING));
-        cells[x].setItem(null);
+        cells[x].setItem(required.getItem());
     }
 
     private static void moveRight(Cell[] cells, int x) {
+        Cell required = new Cell(cells[x + 1]);
         checkIfResource(cells[x], cells[x + 1]);
         cells[x + 1].setItem(cells[x].getItem());
         if (((Alien) cells[x + 1].getItem()).getAlienStates().contains(UP)) {
@@ -156,7 +171,7 @@ public class Steps {
             ((Alien) cells[x + 1].getItem()).getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, FORWARD,
                     SEARCHING, DOWN));
         }
-        cells[x].setItem(null);
+        cells[x].setItem(required.getItem());
     }
 
     private static boolean didMakeStep(Cell cell) {
@@ -191,14 +206,22 @@ public class Steps {
             alien.getAlienStates().add(COLLECTING);
             alien.getAlienStates().add(MOVING_TO_BASE);
 
-            if (resource.getSize() > alien.getSizeOfBag()) {
-                resource.setSize(resource.getSize() - alien.getSizeOfBag());
-                alien.setResourcesInBag(alien.getSizeOfBag());
-            } else if (resource.getSize() > 0) {
-                alien.setResourcesInBag(resource.getSize());
+            if (resource.getSize() > 0) {
+                if (resource.getSize() > alien.getSizeOfBag()) {
+                    resource.setSize(resource.getSize() - alien.getSizeOfBag());
+                    alien.setResourcesInBag(alien.getSizeOfBag());
+                } else {
+                    alien.setResourcesInBag(resource.getSize());
+                    resource.setSize(0);
+                }
+                log.info("Alien {} collect {} from resource {} and move to base", alien.getName(),
+                        alien.getResourcesInBag(), resource.getName());
+
+                List<Point> routeToBase;
+
+                routeToBase = TrackUtilities.findRoute(new Point(required.getX(), required.getY()), new Point(0,0),
+                        planet.getField());
             }
-            log.info("Alien {} collect {} from resource {} and move to base", alien.getName(),
-                    alien.getResourcesInBag(), resource.getName());
         }
     }
 
