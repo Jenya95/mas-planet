@@ -4,11 +4,15 @@
     <meta charset="UTF-8"/>
     <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/my.css"/>
     <title>Agent</title>
     <style>
         table {
             table-layout: fixed;
             word-wrap: break-word;
+        }
+        .path {
+            background-color: green;
         }
     </style>
 </head>
@@ -18,7 +22,7 @@
     <table class="table-bordered">
         <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
             <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
-                style="height: 30px; width: 30px">
+                style="height: 30px; width: 30px" th:class="${columnFiled.isPath()} ? 'path' : null">
             </td>
         </tr>
     </table>

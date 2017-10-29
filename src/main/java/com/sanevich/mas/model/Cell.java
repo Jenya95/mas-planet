@@ -12,6 +12,7 @@ public class Cell {
     private int x;
     private int y;
     private Item item;
+    private boolean isPath;
 
     @Tolerate
     public Cell(Cell cell) {

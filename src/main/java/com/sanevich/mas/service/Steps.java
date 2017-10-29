@@ -197,7 +197,7 @@ public class Steps {
         System.out.println("endline");
     }
 
-    private static void checkIfResource(Cell current, Cell required) {
+    private static boolean checkIfResource(Cell current, Cell required) {
         if (required.getItem() instanceof Resource) {
             Alien alien = (Alien) current.getItem();
             Resource resource = (Resource) required.getItem();
@@ -221,6 +221,8 @@ public class Steps {
 
                 routeToBase = TrackUtilities.findRoute(new Point(required.getX(), required.getY()), new Point(0,0),
                         planet.getField());
+
+                return true;
             }
         }
     }

@@ -21,6 +21,7 @@ package com.sanevich.mas.pathfinding;
  * A simple Example implementation of a Node only overriding the sethCosts
  * method; uses manhatten method.
  */
+
 public class Point extends AbstractNode {
 
         public Point(int xPosition, int yPosition) {
