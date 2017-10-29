@@ -38,11 +38,25 @@ public class AgentController {
 
         Base base = new Base();
 
-        Alien a1 = Alien.builder().sizeOfBag(3).alienStates(new HashSet<>()).build();
-        Alien a2 = Alien.builder().sizeOfBag(2).alienStates(new HashSet<>()).build();
-        Alien a3 = Alien.builder().sizeOfBag(2).alienStates(new HashSet<>()).build();
+        Alien a1 = Alien.builder()
+                .sizeOfBag(3)
+                .name("a1")
+                .alienStates(new HashSet<>())
+                .build();
 
-        Resource r1 = new Resource(10);
+        Alien a2 = Alien.builder()
+                .sizeOfBag(2)
+                .name("a2")
+                .alienStates(new HashSet<>())
+                .build();
+
+        Alien a3 = Alien.builder()
+                .sizeOfBag(2)
+                .name("a3")
+                .alienStates(new HashSet<>()
+                ).build();
+
+        Resource r1 = new Resource(10, "Gold");
 
         Arrays.stream(planet.getField())
                 .forEach(x -> {

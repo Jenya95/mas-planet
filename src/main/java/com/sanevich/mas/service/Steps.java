@@ -12,7 +12,7 @@ import static com.sanevich.mas.model.item.AlienState.*;
 
 public class Steps {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(Steps.class);
 
     private static int stepCount = 0;
 
@@ -197,6 +197,8 @@ public class Steps {
             } else if (resource.getSize() > 0) {
                 alien.setResourcesInBag(resource.getSize());
             }
+            log.info("Alien {} collect {} from resource {} and move to base", alien.getName(),
+                    alien.getResourcesInBag(), resource.getName());
         }
     }
 

@@ -9,4 +9,5 @@ import lombok.*;
 @ToString
 public class Resource extends Item {
     private int size;
+    private String name;
 }
