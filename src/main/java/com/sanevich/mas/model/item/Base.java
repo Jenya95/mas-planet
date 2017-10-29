@@ -1,13 +1,11 @@
 package com.sanevich.mas.model.item;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
+@ToString
 public class Base extends Item {
 }

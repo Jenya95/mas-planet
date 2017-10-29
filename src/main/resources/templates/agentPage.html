@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Agent</title>
+    <style>
+        table {
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<div id="planet" th:fragment="planet">
+    <table class="table-bordered">
+        <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
+            <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
+                style="height: 30px; width: 30px">
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    window.onload = function start() {
+        slide();
+    };
+    function slide() {
+        window.setInterval(function () {
+            $("#planet").load("/generate");
+        }, 500); // repeat forever, polling every 3 seconds
+    }
+</script>
+
+</body>
+</html>

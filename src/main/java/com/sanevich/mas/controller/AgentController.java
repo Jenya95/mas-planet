@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +38,8 @@ public class AgentController {
 
         Base base = new Base();
 
-        Alien a1 = Alien.builder().sizeOfBag(3).build();
-        Alien a2 = Alien.builder().sizeOfBag(2).build();
+        Alien a1 = Alien.builder().sizeOfBag(3).alienStates(new HashSet<>()).build();
+        Alien a2 = Alien.builder().sizeOfBag(2).alienStates(new HashSet<>()).build();
 
         Resource r1 = new Resource(10);
 
@@ -54,7 +56,7 @@ public class AgentController {
         planet.getField()[10][5].setItem(r1);
     }
 
-    @GetMapping("table")
+    @GetMapping("generate")
     public String showTable(Model model) throws IOException {
         Steps.doStep(planet);
 
@@ -62,8 +64,18 @@ public class AgentController {
                 .map(Arrays::asList)
                 .collect(Collectors.toList());
 
-
         model.addAttribute("planetField", list);
         return "agentPage :: planet";
+    }
+
+    @GetMapping
+    public String showTableInit(Model model) throws IOException {
+
+        List<List<Cell>> list = Arrays.stream(planet.getField())
+                .map(Arrays::asList)
+                .collect(Collectors.toList());
+
+        model.addAttribute("planetField", list);
+        return "agentPage";
     }
 }

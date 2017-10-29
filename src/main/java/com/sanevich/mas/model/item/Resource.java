@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
+@ToString
 public class Resource extends Item {
     private int size;
 }
