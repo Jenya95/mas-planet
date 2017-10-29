@@ -21,7 +21,7 @@ package com.sanevich.mas.pathfinding;
  * A Factory which creates new instances of an implementation of the
  * <code>AbstractNode</code> at given coordinates.
  * <p>
- * Must be implemented and given to <code>Map</code> instance on
+ * Must be implemented and given to <code>AstarMap</code> instance on
  * construction.
  *
  * @see AbstractNode

@@ -57,6 +57,7 @@ public class AgentController {
                 ).build();
 
         Resource r1 = new Resource(10, "Gold");
+        Resource r2 = new Resource(30, "Silver");
 
         Arrays.stream(planet.getField())
                 .forEach(x -> {
@@ -66,8 +67,9 @@ public class AgentController {
                 });
 
         planet.getField()[0][0].setItem(base);
-        planet.getField()[5][10].setItem(a1);
+        planet.getField()[1][10].setItem(a1);
         planet.getField()[7][13].setItem(a2);
+        planet.getField()[2][12].setItem(r2);
         planet.getField()[10][5].setItem(r1);
         planet.getField()[5][7].setItem(a3);
     }

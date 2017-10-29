@@ -41,7 +41,7 @@ import java.util.List;
  * Create a node class which extends AbstractNode and implements the sethCosts
  * method.
  * Create a NodeFactory that implements the NodeFactory interface.
- * Create Map instance with those created classes.
+ * Create AstarMap instance with those created classes.
  * @see ExampleUsage ExampleUsage
  * <p>
  *
@@ -50,7 +50,7 @@ import java.util.List;
  * @version 1.0
  * @param <T>
  */
-public class Map<T extends AbstractNode> {
+public class AstarMap<T extends AbstractNode> {
 
     /** weather or not it is possible to walk diagonally on the map in general. */
     protected static boolean CANMOVEDIAGONALY = true;
@@ -75,7 +75,7 @@ public class Map<T extends AbstractNode> {
      * @param higth
      * @param nodeFactory 
      */
-    public Map(int width, int higth, NodeFactory nodeFactory) {
+    public AstarMap(int width, int higth, NodeFactory nodeFactory) {
         // TODO check parameters. width and higth should be > 0.
         this.nodeFactory = nodeFactory;        
         nodes = (T[][]) new AbstractNode[width][higth];
