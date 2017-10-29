@@ -13,4 +13,5 @@ import java.util.Set;
 public class Alien extends Item {
     private int sizeOfBag;
     private Set<AlienState> alienStates;
+    private int resourcesInBag;
 }
