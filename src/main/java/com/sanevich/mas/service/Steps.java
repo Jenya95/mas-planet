@@ -73,11 +73,7 @@ public class Steps {
             int newPointIndex = alien.getRouteToBase().indexOf(new Point(x, y)) - 1;
 
             if (newPointIndex >= 0) {
-                Cell nextCell = field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()];
-                Cell cell = new Cell(nextCell);
-                alien.getAlienStates().add(MAKE_A_STEP);
-                nextCell.setItem(alien);
-                field[y][x].setItem(cell.getItem());
+                moveAlien(field[y][x], alien, field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()]);
             }
 
             //когда он дошел до ресура, то должен опять наполнить свой рюкзак и отправиться на базу
@@ -93,6 +89,13 @@ public class Steps {
                 }
             }
         }
+    }
+
+    public static void moveAlien(Cell cellAlien, Alien alien, Cell nextCellAlien) {
+        Cell cell = new Cell(nextCellAlien);
+        alien.getAlienStates().add(MAKE_A_STEP);
+        nextCellAlien.setItem(alien);
+        cellAlien.setItem(cell.getItem());
     }
 
     public static boolean didMakeStep(Cell cell) {

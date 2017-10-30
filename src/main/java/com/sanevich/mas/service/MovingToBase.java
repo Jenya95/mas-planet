@@ -10,6 +10,7 @@ import static com.sanevich.mas.model.item.AlienState.MAKE_A_STEP;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_BASE;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_RESOURCE;
 import static com.sanevich.mas.service.Steps.didMakeStep;
+import static com.sanevich.mas.service.Steps.moveAlien;
 
 class MovingToBase {
 
@@ -34,11 +35,7 @@ class MovingToBase {
             else {
                 int newPointIndex = alien.getRouteToBase().indexOf(new Point(x,y)) + 1;
                 if (newPointIndex < alien.getRouteToBase().size() - 1) { //-1 чтобы не тронуть базу
-                    Cell nextCell = field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()];
-                    Cell cell = new Cell(nextCell);
-                    alien.getAlienStates().add(MAKE_A_STEP);
-                    nextCell.setItem(alien);
-                    field[y][x].setItem(cell.getItem());
+                    moveAlien(field[y][x], alien, field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()]);
                 }
                 //агент дошел до базы
                 else {
