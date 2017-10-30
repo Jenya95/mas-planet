@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8"/>
     <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script th:src="@{/js/bootbox.min.js}"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/my.css"/>
+    <link rel="stylesheet" th:href="@{/css/my.css}"/>
     <title>Agent</title>
     <style>
         table {
             table-layout: fixed;
             word-wrap: break-word;
         }
-        .path {
-            background-color: green;
-        }
     </style>
 </head>
 <body>
+
+<script>
+    let interval;
+    let message;
+</script>
 
 <div id="planet" th:fragment="planet">
     <table class="table-bordered">
@@ -26,18 +30,25 @@
             </td>
         </tr>
     </table>
-</div>
+    <script th:inline="javascript">
+        message = /*[[${msg}]]*/ null;
 
+        if (message !== null) {
+            clearInterval(interval);
+            bootbox.alert(message);
+        }
+    </script>
+</div>
 <script>
     window.onload = function start() {
         slide();
     };
+
     function slide() {
-        window.setInterval(function () {
+        interval = setInterval(function () {
             $("#planet").load("/generate");
         }, 100); // repeat forever, polling every 3 seconds
     }
 </script>
-
 </body>
 </html>

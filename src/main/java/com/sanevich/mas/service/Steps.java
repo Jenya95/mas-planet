@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.sanevich.mas.model.item.AlienState.*;
 import static com.sanevich.mas.service.MovingToBase.makeStepToBase;
@@ -23,6 +21,7 @@ public class Steps {
 
     private static Planet planet;
     private static Map<Point,List<Point>> routesToBase = new HashMap<>();
+    private static Set<Resource> resources = new HashSet<>();
 
     public static void doStep(Planet planetOfAlien) throws IOException {
         Steps.planet = planetOfAlien;
@@ -49,6 +48,19 @@ public class Steps {
                     //сторону ресурса
                     if (((Alien) planet.getField()[i][j].getItem()).getAlienStates().contains(MOVING_TO_RESOURCE)) {
                         makeStepToResource(i, j, planet.getField());
+                    }
+                } else if (planet.getField()[i][j].getItem() instanceof Resource) {
+                    resources.add((Resource) planet.getField()[i][j].getItem());
+
+                    Integer sumOfResources = resources
+                            .stream()
+                            .map(Resource::getSize)
+                            .reduce(0, (x, y) -> x + y);
+
+                    if (sumOfResources == 0) {
+                        log.info("All resources collected!");
+                        CommonData.goalAchieved = true;
+                        break;
                     }
                 }
             }
@@ -137,7 +149,6 @@ public class Steps {
                 Resource resource = (Resource) required.getItem();
 
                 alien.getAlienStates().remove(SEARCHING);
-                alien.getAlienStates().add(COLLECTING);
                 alien.getAlienStates().add(MOVING_TO_BASE);
 
                 if (resource.getSize() > 0) {

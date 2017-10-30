@@ -76,11 +76,21 @@ public class AgentController {
 
     @GetMapping("generate")
     public String showTable(Model model) throws IOException {
-        Steps.doStep(planet);
+        String msg = "";
+
+        if (!CommonData.goalAchieved) {
+            Steps.doStep(planet);
+        } else {
+            msg = "Цель достигнута! Все ресурсы собраны!";
+        }
 
         List<List<Cell>> list = Arrays.stream(planet.getField())
                 .map(Arrays::asList)
                 .collect(Collectors.toList());
+
+        if (!msg.isEmpty()) {
+            model.addAttribute("msg", msg);
+        }
 
         model.addAttribute("planetField", list);
         return "agentPage :: planet";
