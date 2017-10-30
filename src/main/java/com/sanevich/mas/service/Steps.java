@@ -78,10 +78,6 @@ public class Steps {
         stepCount++;
     }
 
-    static void handleResource(Alien alien, Resource resource) {
-
-    }
-
     static void moveAlien(Cell cellAlien, Alien alien, Cell nextCellAlien) {
         Cell cell = new Cell(nextCellAlien);
         alien.getAlienStates().add(MAKE_A_STEP);
@@ -94,25 +90,29 @@ public class Steps {
                 .getAlienStates().contains(MAKE_A_STEP);
     }
 
-    private static void showMap(Planet planet) throws IOException {
-        for (int i = 0; i < planet.getField().length; i++) {
-            for (int j = 0; j < planet.getField()[i].length; j++) {
-                if (planet.getField()[i][j].getItem() instanceof Alien) {
-                    System.out.print(" +a+ ");
-                } else if (planet.getField()[i][j].getItem() instanceof Base) {
-                    System.out.print(" +b+ ");
-                } else if (planet.getField()[i][j].getItem() instanceof Resource) {
-                    System.out.print(" +r+ ");
-                } else {
-                    System.out.print("  -  ");
-                }
-            }
-            System.out.println();
+    static boolean checkIfPath(Cell current, Cell required) {
+        if (required.isPath()) {
+            Alien alien = (Alien) current.getItem();
+            List<Point> pathToBase = routesToBase
+                    .values()
+                    .stream()
+                    .filter(x -> x.contains(new Point(required.getX(), required.getY())))
+                    .findFirst()
+                    .orElse(null);
+            alien.setRouteToBase(pathToBase);
+            alien.getAlienStates().remove(SEARCHING);
+            alien.getAlienStates().add(MOVING_TO_RESOURCE);
+            alien.getAlienStates().add(MAKE_A_STEP);
+
+            Cell buff = new Cell(current);
+            planet.getField()[current.getY()][current.getX()].setItem(required.getItem());
+            planet.getField()[required.getY()][required.getX()].setItem(buff.getItem());
+            return true;
         }
-        System.out.println("endline");
+        return false;
     }
 
-    public static boolean checkIfResource(Cell current, Cell required) {
+    static boolean checkIfResource(Cell current, Cell required) {
         if (required.getItem() instanceof Resource) {
 
             Alien alien = (Alien) current.getItem();
@@ -143,14 +143,14 @@ public class Steps {
                     routesToBase.put(startPoint, route);
                     return true;
                 } else {
-                    clearPath(alien);
+                    clearPathOnScreen(alien);
                 }
             }
         }
         return false;
     }
 
-    static void clearPath(Alien alien) {
+    static void clearPathOnScreen(Alien alien) {
         for (int i = 0; i < planet.getField().length; i++) {
             for (int j = 0; j < planet.getField()[i].length; j++) {
                 //если ресурс 0 - то надо убрать путь до него с карты
@@ -177,14 +177,4 @@ public class Steps {
     static int getStepCount() {
         return stepCount;
     }
-
-    public static Planet getPlanet() {
-        return planet;
-    }
-
-    public static void setStepCount(int stepCount) {
-        Steps.stepCount = stepCount;
-    }
-
-
 }

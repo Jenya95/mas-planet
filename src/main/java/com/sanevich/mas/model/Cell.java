@@ -19,5 +19,6 @@ public class Cell {
         this.item = cell.item;
         this.x = cell.getX();
         this.y = cell.getY();
+        this.isPath = cell.isPath;
     }
 }

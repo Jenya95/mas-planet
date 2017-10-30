@@ -33,7 +33,7 @@ class MovingToResource {
                     collectResource(alien, resource);
                     alien.getAlienStates().add(MOVING_TO_BASE);
                 } else {
-                    clearPath(alien);
+                    clearPathOnScreen(alien);
                     alien.getAlienStates().add(SEARCHING);
                 }
             }
