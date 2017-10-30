@@ -34,7 +34,7 @@ class MovingToBase {
             //списке точек пути к базе, а следующая точка - следующая в этом списке
             else {
                 int newPointIndex = alien.getRouteToBase().indexOf(new Point(x,y)) + 1;
-                if (newPointIndex < alien.getRouteToBase().size() - 1) { //-1 чтобы не тронуть базу
+                if (newPointIndex < alien.getRouteToBase().size() - 2) { //-2 чтобы не тронуть базу
                     moveAlien(field[y][x], alien, field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()]);
                 }
                 //агент дошел до базы
