@@ -94,7 +94,7 @@ public class Steps {
                 Resource resource = (Resource) field[alien.getRouteToBase().get(lastIndex).getyPosition()][alien.getRouteToBase().get(lastIndex).getxPosition()].getItem();
                 alien.getAlienStates().remove(MOVING_TO_RESOURCE);
                 if (resource.getSize() > 0) {
-                    collectResorce(alien, resource);
+                    collectResource(alien, resource);
                     alien.getAlienStates().add(MOVING_TO_BASE);
                 } else {
                     alien.getAlienStates().add(SEARCHING);
@@ -152,7 +152,7 @@ public class Steps {
                 alien.getAlienStates().add(MOVING_TO_BASE);
 
                 if (resource.getSize() > 0) {
-                    collectResorce(alien, resource);
+                    collectResource(alien, resource);
 
                     Point startPoint = new Point(required.getX(), required.getY());
                     Point basePoint = new Point(0, 0);
@@ -169,7 +169,7 @@ public class Steps {
         return false;
     }
 
-    private static void collectResorce(Alien alien, Resource resource) {
+    static void collectResource(Alien alien, Resource resource) {
         if (resource.getSize() > alien.getSizeOfBag()) {
             resource.setSize(resource.getSize() - alien.getSizeOfBag());
             alien.setResourcesInBag(alien.getSizeOfBag());
@@ -182,7 +182,7 @@ public class Steps {
     }
 
 
-    public static int getStepCount() {
+    static int getStepCount() {
         return stepCount;
     }
 

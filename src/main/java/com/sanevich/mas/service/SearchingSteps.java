@@ -3,6 +3,7 @@ package com.sanevich.mas.service;
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
 import com.sanevich.mas.model.item.AlienState;
+import com.sanevich.mas.model.item.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +76,7 @@ class SearchingSteps {
 
     private static void moveRightFromLeftCorner(Cell[] cells, int x, AlienState upOrDown) {
         Cell required = new Cell(cells[x + 1]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], required);
         if (!resourceFound) {
             cells[x + 1].setItem(cells[x].getItem());
@@ -86,9 +88,9 @@ class SearchingSteps {
         }
     }
 
-
     private static void moveLeftFromRightCorner(Cell[] cells, int x, AlienState upOrDown) {
         Cell required = new Cell(cells[x-1]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], cells[x-1]);
         if (!resourceFound) {
             cells[x - 1].setItem(cells[x].getItem());
@@ -105,6 +107,7 @@ class SearchingSteps {
 
     private static void moveUp(int y, int x, Cell[][] field, AlienState forwardOrBackward) {
         Cell required = new Cell(field[y - 1][x]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(field[y][x], field[y - 1][x]);
         if (!resourceFound) {
             field[y - 1][x].setItem(field[y][x].getItem());
@@ -119,6 +122,7 @@ class SearchingSteps {
 
     private static void moveDown(int y, int x, Cell[][] field, AlienState forwardOrBackward) {
         Cell required = new Cell(field[y + 1][x]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(field[y][x], field[y + 1][x]);
         if (!resourceFound) {
             field[y + 1][x].setItem(field[y][x].getItem());
@@ -134,6 +138,7 @@ class SearchingSteps {
 
     private static void moveLeft(Cell[] cells, int x) {
         Cell required = new Cell(cells[x - 1]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], required);
         if (!resourceFound) {
             cells[x - 1].setItem(cells[x].getItem());
@@ -146,6 +151,7 @@ class SearchingSteps {
 
     private static void moveRight(Cell[] cells, int x) {
         Cell required = new Cell(cells[x + 1]);
+        nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], cells[x + 1]);
         if (!resourceFound) {
             cells[x + 1].setItem(cells[x].getItem());
@@ -161,4 +167,9 @@ class SearchingSteps {
         }
     }
 
+    private static void nullIfEmptyResource(Cell required) {
+        if (required.getItem() instanceof Resource && ((Resource) required.getItem()).getSize()==0) {
+            required.setItem(null);
+        }
+    }
 }
