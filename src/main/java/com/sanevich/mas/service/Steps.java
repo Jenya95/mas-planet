@@ -11,6 +11,7 @@ import java.util.*;
 
 import static com.sanevich.mas.model.item.AlienState.*;
 import static com.sanevich.mas.service.MovingToBase.makeStepToBase;
+import static com.sanevich.mas.service.MovingToResource.makeStepToResource;
 import static com.sanevich.mas.service.SearchingSteps.makeSimpleStep;
 
 public class Steps {
@@ -77,40 +78,18 @@ public class Steps {
         stepCount++;
     }
 
-    private static void makeStepToResource(int y, int x, Cell[][] field) {
-        //шаг только если при этой итерации еще не был сделан шаг
-        if (!didMakeStep(field[y][x])) {
-            Alien alien = (Alien) field[y][x].getItem();
-            //агент идет назад по пути до ресурса, пока не встретится с ресурсом
-            int newPointIndex = alien.getRouteToBase().indexOf(new Point(x, y)) - 1;
+    static void handleResource(Alien alien, Resource resource) {
 
-            if (newPointIndex >= 0) {
-                moveAlien(field[y][x], alien, field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()]);
-            }
-
-            //когда он дошел до ресура, то должен опять наполнить свой рюкзак и отправиться на базу
-            if (alien.getRouteToBase().get(0).equals(new Point(x, y))) {
-                int lastIndex = alien.getRouteToBase().size()-1;
-                Resource resource = (Resource) field[alien.getRouteToBase().get(lastIndex).getyPosition()][alien.getRouteToBase().get(lastIndex).getxPosition()].getItem();
-                alien.getAlienStates().remove(MOVING_TO_RESOURCE);
-                if (resource.getSize() > 0) {
-                    collectResource(alien, resource);
-                    alien.getAlienStates().add(MOVING_TO_BASE);
-                } else {
-                    alien.getAlienStates().add(SEARCHING);
-                }
-            }
-        }
     }
 
-    public static void moveAlien(Cell cellAlien, Alien alien, Cell nextCellAlien) {
+    static void moveAlien(Cell cellAlien, Alien alien, Cell nextCellAlien) {
         Cell cell = new Cell(nextCellAlien);
         alien.getAlienStates().add(MAKE_A_STEP);
         nextCellAlien.setItem(alien);
         cellAlien.setItem(cell.getItem());
     }
 
-    public static boolean didMakeStep(Cell cell) {
+    static boolean didMakeStep(Cell cell) {
         return ((Alien) cell.getItem())
                 .getAlienStates().contains(MAKE_A_STEP);
     }
@@ -163,10 +142,23 @@ public class Steps {
 
                     routesToBase.put(startPoint, route);
                     return true;
+                } else {
+                    clearPath(alien);
                 }
             }
         }
         return false;
+    }
+
+    static void clearPath(Alien alien) {
+        for (int i = 0; i < planet.getField().length; i++) {
+            for (int j = 0; j < planet.getField()[i].length; j++) {
+                //если ресурс 0 - то надо убрать путь до него с карты
+                if (alien.getRouteToBase()!= null && alien.getRouteToBase().contains(new Point(i,j))) {
+                    planet.getField()[j][i].setPath(false);
+                }
+            }
+        }
     }
 
     static void collectResource(Alien alien, Resource resource) {
@@ -184,6 +176,10 @@ public class Steps {
 
     static int getStepCount() {
         return stepCount;
+    }
+
+    public static Planet getPlanet() {
+        return planet;
     }
 
     public static void setStepCount(int stepCount) {

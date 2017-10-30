@@ -8,9 +8,7 @@ import com.sanevich.mas.pathfinding.Point;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_BASE;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_RESOURCE;
 import static com.sanevich.mas.model.item.AlienState.SEARCHING;
-import static com.sanevich.mas.service.Steps.collectResource;
-import static com.sanevich.mas.service.Steps.didMakeStep;
-import static com.sanevich.mas.service.Steps.moveAlien;
+import static com.sanevich.mas.service.Steps.*;
 
 class MovingToResource {
     static void makeStepToResource(int y, int x, Cell[][] field) {
@@ -35,6 +33,7 @@ class MovingToResource {
                     collectResource(alien, resource);
                     alien.getAlienStates().add(MOVING_TO_BASE);
                 } else {
+                    clearPath(alien);
                     alien.getAlienStates().add(SEARCHING);
                 }
             }
