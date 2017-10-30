@@ -57,7 +57,7 @@ public class AgentController {
 
         Resource r1 = new Resource(10, "Gold");
         Resource r2 = new Resource(30, "Silver");
-        Resource r3 = new Resource(15, "Women");
+        Resource r3 = new Resource(15, "Crypto");
 
         Arrays.stream(planet.getField())
                 .forEach(x -> {

@@ -1,3 +1,13 @@
 .path {
     background-color: green;
 }
+.treasures {
+    /*background-image: url(/images/treasures.png);*/
+    background-color: yellow;
+}
+.alien {
+    background-color: cornflowerblue;
+}
+.base {
+    background-color: red !important;;
+}

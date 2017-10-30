@@ -26,7 +26,9 @@
     <table class="table-bordered">
         <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
             <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
-                style="height: 30px; width: 30px" th:class="${columnFiled.isPath()} ? 'path' : null">
+                style="height: 30px; width: 30px; text-align: center"
+                th:class="${columnFiled.isPath()} ? 'path' : null"
+                th:classappend="${columnFiled.isResource()} ? 'treasures' : (${columnFiled.isAlien()} ? 'alien' : (${columnFiled.isBase()} ? 'base' : null))">
             </td>
         </tr>
     </table>
@@ -47,7 +49,7 @@
     function slide() {
         interval = setInterval(function () {
             $("#planet").load("/generate");
-        }, 200); // repeat forever, polling every 3 seconds
+        }, 100); // repeat forever, polling every 3 seconds
     }
 </script>
 </body>

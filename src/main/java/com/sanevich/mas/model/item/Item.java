@@ -6,6 +6,5 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-@ToString
 public abstract class Item {
 }
