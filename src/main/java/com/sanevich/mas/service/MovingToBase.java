@@ -6,9 +6,8 @@ import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.sanevich.mas.model.item.AlienState.MAKE_A_STEP;
-import static com.sanevich.mas.model.item.AlienState.MOVING_TO_BASE;
-import static com.sanevich.mas.model.item.AlienState.MOVING_TO_RESOURCE;
+import static com.sanevich.mas.model.item.AlienState.*;
+import static com.sanevich.mas.service.Steps.clearPathOnScreen;
 import static com.sanevich.mas.service.Steps.didMakeStep;
 import static com.sanevich.mas.service.Steps.moveAlien;
 
@@ -42,8 +41,15 @@ class MovingToBase {
                     log.info("Alien {} dropped {} resources at base", alien.getName(), alien.getResourcesInBag());
                     alien.setResourcesInBag(0);
                     alien.getAlienStates().remove(MOVING_TO_BASE);
-                    alien.getAlienStates().add(MOVING_TO_RESOURCE);
-                    alien.getAlienStates().add(MAKE_A_STEP);
+
+                    if (alien.getAlienStates().contains(LAST_MOVE_TO_BASE)) {
+                        clearPathOnScreen(alien);
+                        alien.getAlienStates().remove(LAST_MOVE_TO_BASE);
+                        alien.getAlienStates().add(SEARCHING);
+                    } else {
+                        alien.getAlienStates().add(MOVING_TO_RESOURCE);
+                        alien.getAlienStates().add(MAKE_A_STEP);
+                    }
                 }
             }
         }

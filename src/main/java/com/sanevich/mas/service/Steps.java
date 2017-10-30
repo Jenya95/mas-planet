@@ -131,8 +131,6 @@ public class Steps {
 
                     routesToBase.put(startPoint, route);
                     return true;
-                } else {
-                    clearPathOnScreen(alien);
                 }
             }
         }
@@ -167,6 +165,7 @@ public class Steps {
         } else {
             alien.setResourcesInBag(resource.getSize());
             resource.setSize(0);
+            alien.getAlienStates().add(LAST_MOVE_TO_BASE);
         }
         log.info("Alien {} collect {} from resource {} and move to base", alien.getName(),
                 alien.getResourcesInBag(), resource.getName());
