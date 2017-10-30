@@ -52,17 +52,6 @@ public class Steps {
                     }
                 } else if (planet.getField()[i][j].getItem() instanceof Resource) {
                     resources.add((Resource) planet.getField()[i][j].getItem());
-
-                    Integer sumOfResources = resources
-                            .stream()
-                            .map(Resource::getSize)
-                            .reduce(0, (x, y) -> x + y);
-
-                    if (sumOfResources == 0) {
-                        log.info("All resources collected!");
-                        CommonData.goalAchieved = true;
-                        break;
-                    }
                 }
             }
         }
@@ -158,6 +147,16 @@ public class Steps {
                     planet.getField()[j][i].setPath(false);
                 }
             }
+        }
+
+        Integer sumOfResources = resources
+                .stream()
+                .map(Resource::getSize)
+                .reduce(0, (x, y) -> x + y);
+
+        if (sumOfResources == 0) {
+            log.info("All resources collected!");
+            CommonData.goalAchieved = true;
         }
     }
 
