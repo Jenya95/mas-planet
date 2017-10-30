@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -58,6 +57,7 @@ public class AgentController {
 
         Resource r1 = new Resource(10, "Gold");
         Resource r2 = new Resource(30, "Silver");
+        Resource r3 = new Resource(15, "Women");
 
         Arrays.stream(planet.getField())
                 .forEach(x -> {
@@ -71,6 +71,7 @@ public class AgentController {
         planet.getField()[7][13].setItem(a2);
         planet.getField()[2][12].setItem(r2);
         planet.getField()[10][5].setItem(r1);
+        planet.getField()[13][14].setItem(r3);
         planet.getField()[5][7].setItem(a3);
     }
 
