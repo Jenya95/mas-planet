@@ -1,4 +1,4 @@
-package com.sanevich.mas.service;
+package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.pathfinding.AstarMap;
