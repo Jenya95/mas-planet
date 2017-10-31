@@ -6,6 +6,9 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-@ToString
 public class Base extends Item {
+    @Override
+    public String toString() {
+        return "B";
+    }
 }

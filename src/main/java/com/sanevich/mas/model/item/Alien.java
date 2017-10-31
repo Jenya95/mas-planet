@@ -11,7 +11,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Builder
-//@ToString
 public class Alien extends Item {
     private int sizeOfBag;
     private Set<AlienState> alienStates;
@@ -21,6 +20,6 @@ public class Alien extends Item {
 
     @Override
     public String toString() {
-        return String.valueOf(resourcesInBag)+"/"+sizeOfBag + " " + name;
+        return String.valueOf(resourcesInBag)+"/"+sizeOfBag;
     }
 }
