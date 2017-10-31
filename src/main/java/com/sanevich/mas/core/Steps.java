@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.*;
 
+import static com.sanevich.mas.core.CommonData.*;
 import static com.sanevich.mas.model.item.AlienState.*;
 import static com.sanevich.mas.core.MovingToBase.makeStepToBase;
 import static com.sanevich.mas.core.MovingToResource.makeStepToResource;
@@ -123,7 +124,7 @@ public class Steps {
                     collectResource(alien, resource);
 
                     Point startPoint = new Point(required.getX(), required.getY());
-                    Point basePoint = new Point(0, 0);
+                    Point basePoint = new Point(X_BASE_COORDINATE, Y_BASE_COORDINATE);
 
                     List<Point> route = TrackUtilities.findRoute(startPoint, basePoint, planet.getField());
                     route.add(new Point(required.getX(), required.getY()));
@@ -153,7 +154,7 @@ public class Steps {
 
         if (sumOfResources == 0) {
             log.info("All resources collected!");
-            CommonData.goalAchieved = true;
+            goalAchieved = true;
         }
     }
 

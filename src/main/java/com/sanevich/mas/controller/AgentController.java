@@ -7,10 +7,14 @@ import com.sanevich.mas.core.Steps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,5 +61,16 @@ public class AgentController {
 
         model.addAttribute("planetField", list);
         return "agentPage";
+    }
+
+    @PostMapping("start-new-planet")
+    public String showNewTable(RedirectAttributes redirectAttributes,
+                               @RequestParam(value = "numOfAgents") Integer numOfAgents,
+                               @RequestParam(value = "numOfResources") Integer numOfResources) throws ParseException {
+
+        //todo generate some agents and resources and put them to the random places
+
+        redirectAttributes.addFlashAttribute("start", true);
+        return "redirect:/generate";
     }
 }
