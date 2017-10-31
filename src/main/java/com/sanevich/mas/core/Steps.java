@@ -138,13 +138,8 @@ public class Steps {
     }
 
     static void clearPathOnScreen(Alien alien) {
-        for (int i = 0; i < planet.getField().length; i++) {
-            for (int j = 0; j < planet.getField()[i].length; j++) {
-                //если ресурс 0 - то надо убрать путь до него с карты
-                if (alien.getRouteToBase()!= null && alien.getRouteToBase().contains(new Point(i,j))) {
-                    planet.getField()[j][i].setPath(false);
-                }
-            }
+        for (Point point: alien.getRouteToBase()) {
+            planet.getField()[point.getyPosition()][point.getxPosition()].setPath(false);
         }
 
         Integer sumOfResources = resources
