@@ -21,6 +21,6 @@ public class Alien extends Item {
 
     @Override
     public String toString() {
-        return String.valueOf(resourcesInBag)+"/"+sizeOfBag;
+        return String.valueOf(resourcesInBag)+"/"+sizeOfBag + " " + name;
     }
 }

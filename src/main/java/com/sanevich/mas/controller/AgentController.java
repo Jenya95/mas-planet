@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.sanevich.mas.core.CommonData.*;
+import static com.sanevich.mas.core.Steps.setResources;
 import static com.sanevich.mas.core.Steps.setStepCount;
 
 @Controller
@@ -41,7 +42,7 @@ public class AgentController {
     }
 
     @GetMapping("generate")
-    public String showTable(Model model) throws IOException {
+    public String showTable(Model model) {
         String msg = "";
 
         if (!goalAchieved) {
@@ -101,6 +102,7 @@ public class AgentController {
         planet.addItemOnField(base, X_BASE_COORDINATE, Y_BASE_COORDINATE);
         goalAchieved = false;
         setStepCount(0);
+        setResources(new HashSet<>());
 
         redirectAttributes.addFlashAttribute("start", true);
         return "redirect:/";

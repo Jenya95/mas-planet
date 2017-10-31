@@ -9,20 +9,21 @@ import java.util.List;
 
 public class TrackUtilities {
     public static List<Point> findRoute(Point startPoint, Point endPoint, Cell[][] map) {
-        AstarMap<Point> myAstarMap = new AstarMap<>(map.length, map[0].length, new ExampleFactory());
-        List<Point> path = myAstarMap.findPath(startPoint.getxPosition(),
-                startPoint.getyPosition(),
-                endPoint.getxPosition(),
-                endPoint.getyPosition());
-
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (path!= null && path.contains(new Point(i,j))) {
-                    map[j][i].setPath(true);
-                }
+        AstarMap<Point> myAstarMap = new AstarMap<>(map[0].length, map.length, new ExampleFactory());
+        try {
+            List<Point> path = myAstarMap.findPath(startPoint.getxPosition(),
+                    startPoint.getyPosition(),
+                    endPoint.getxPosition(),
+                    endPoint.getyPosition());
+            if (path != null) {
+                path.forEach(x -> map[x.getyPosition()][x.getxPosition()].setPath(true));
             }
+
+            return path;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(startPoint.toString() + endPoint.toString());
         }
 
-        return path;
+        return null;
     }
 }

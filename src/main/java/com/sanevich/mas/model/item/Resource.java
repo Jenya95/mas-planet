@@ -13,6 +13,6 @@ public class Resource extends Item {
 
     @Override
     public String toString() {
-        return String.valueOf(size);
+        return String.valueOf(size + " " + name);
     }
 }

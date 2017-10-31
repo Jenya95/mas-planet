@@ -25,7 +25,7 @@ public class Steps {
     private static Map<Point,List<Point>> routesToBase = new HashMap<>();
     private static Set<Resource> resources = new HashSet<>();
 
-    public static void doStep(Planet planetOfAlien) throws IOException {
+    public static void doStep(Planet planetOfAlien) {
         Steps.planet = planetOfAlien;
         for (int i = 0; i < planet.getField().length; i++) {
             for (int j = 0; j < planet.getField()[i].length; j++) {
@@ -120,25 +120,29 @@ public class Steps {
                 alien.getAlienStates().remove(SEARCHING);
                 alien.getAlienStates().add(MOVING_TO_BASE);
 
-                if (resource.getSize() > 0) {
-                    collectResource(alien, resource);
+                collectResource(alien, resource);
 
-                    Point startPoint = new Point(required.getX(), required.getY());
-                    Point basePoint = new Point(X_BASE_COORDINATE, Y_BASE_COORDINATE);
+                Point startPoint = new Point(required.getX(), required.getY());
+                Point basePoint = new Point(X_BASE_COORDINATE, Y_BASE_COORDINATE);
 
-                    List<Point> route = TrackUtilities.findRoute(startPoint, basePoint, planet.getField());
+                List<Point> route = TrackUtilities.findRoute(startPoint, basePoint, planet.getField());
+                if (route != null) {
                     route.add(new Point(required.getX(), required.getY()));
-                    alien.setRouteToBase(route);
-
-                    routesToBase.put(startPoint, route);
-                    return true;
                 }
+                alien.setRouteToBase(route);
+
+                routesToBase.put(startPoint, route);
+                return true;
+
             }
         }
         return false;
     }
 
     static void clearPathOnScreen(Alien alien) {
+
+        routesToBase.values().remove(alien.getRouteToBase());
+
         for (Point point: alien.getRouteToBase()) {
             planet.getField()[point.getyPosition()][point.getxPosition()].setPath(false);
         }
@@ -178,5 +182,9 @@ public class Steps {
 
     public static void setStepCount(int count) {
         stepCount = count;
+    }
+
+    public static void setResources(Set<Resource> resources) {
+        Steps.resources = resources;
     }
 }
