@@ -6,7 +6,6 @@ import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.*;
 
 import static com.sanevich.mas.core.CommonData.*;
@@ -193,5 +192,9 @@ public class Steps {
 
     public static void setResources(Set<Resource> resources) {
         Steps.resources = resources;
+    }
+
+    public static void setRoutesToBase(Map<Point, List<Point>> routesToBase) {
+        Steps.routesToBase = routesToBase;
     }
 }

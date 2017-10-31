@@ -20,6 +20,9 @@ class MovingToResource {
 
             if (newPointIndex >= 0) {
                 moveAlien(field[y][x], alien, field[alien.getRouteToBase().get(newPointIndex).getyPosition()][alien.getRouteToBase().get(newPointIndex).getxPosition()]);
+            } else if (newPointIndex==-2) {
+                alien.getAlienStates().remove(MOVING_TO_RESOURCE);
+                alien.getAlienStates().add(SEARCHING);
             }
 
             //когда он дошел до ресура, то должен опять наполнить свой рюкзак и отправиться на базу

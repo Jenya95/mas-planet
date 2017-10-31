@@ -8,6 +8,7 @@ import com.sanevich.mas.model.item.Alien;
 import com.sanevich.mas.model.item.Base;
 import com.sanevich.mas.model.item.Item;
 import com.sanevich.mas.model.item.Resource;
+import com.sanevich.mas.pathfinding.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +21,12 @@ import sun.management.Agent;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.sanevich.mas.core.CommonData.*;
 import static com.sanevich.mas.core.Steps.setResources;
+import static com.sanevich.mas.core.Steps.setRoutesToBase;
 import static com.sanevich.mas.core.Steps.setStepCount;
 
 @Controller
@@ -97,12 +96,6 @@ public class AgentController {
 
             putItemInRandomCell(rand, resource);
         }
-
-        Base base = new Base();
-        planet.addItemOnField(base, X_BASE_COORDINATE, Y_BASE_COORDINATE);
-        goalAchieved = false;
-        setStepCount(0);
-        setResources(new HashSet<>());
 
         redirectAttributes.addFlashAttribute("start", true);
         return "redirect:/";
