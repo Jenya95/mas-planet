@@ -15,9 +15,6 @@ public class TrackUtilities {
                     startPoint.getyPosition(),
                     endPoint.getxPosition(),
                     endPoint.getyPosition());
-            if (path != null) {
-                path.forEach(x -> map[x.getyPosition()][x.getxPosition()].setPath(true));
-            }
 
             return path;
         } catch (ArrayIndexOutOfBoundsException e) {

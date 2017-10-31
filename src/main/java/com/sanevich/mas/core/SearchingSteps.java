@@ -79,8 +79,7 @@ class SearchingSteps {
         Cell required = new Cell(cells[x + 1]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], required);
-        boolean pathFound = checkIfPath(cells[x], required);
-        if (!resourceFound && !pathFound) {
+        if (!resourceFound && !checkIfPath(cells[x], required)) {
             cells[x + 1].setItem(cells[x].getItem());
             ((Alien) cells[x + 1].getItem()).getAlienStates().remove(upOrDown);
             ((Alien) cells[x + 1].getItem()).getAlienStates().remove(DOWN);
@@ -94,8 +93,7 @@ class SearchingSteps {
         Cell required = new Cell(cells[x-1]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], cells[x-1]);
-        boolean pathFound = checkIfPath(cells[x], cells[x-1]);
-        if (!resourceFound && !pathFound) {
+        if (!resourceFound && !checkIfPath(cells[x], cells[x-1])) {
             cells[x - 1].setItem(cells[x].getItem());
             Alien alien = (Alien) cells[x - 1].getItem();
             alien.getAlienStates().remove(FORWARD);
@@ -112,13 +110,12 @@ class SearchingSteps {
         Cell required = new Cell(field[y - 1][x]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(field[y][x], field[y - 1][x]);
-        boolean pathFound = checkIfPath(field[y][x], field[y - 1][x]);
         if (required.isBase()) {
             Alien alien = (Alien) field[y][x].getItem();
             alien.getAlienStates().remove(UP);
             alien.getAlienStates().addAll(Arrays.asList(DOWN, MAKE_A_STEP));
         } else
-        if (!resourceFound && !pathFound) {
+        if (!resourceFound && !checkIfPath(field[y][x], field[y - 1][x])) {
             field[y - 1][x].setItem(field[y][x].getItem());
             Alien alien = (Alien) field[y - 1][x].getItem();
             alien.getAlienStates().remove(forwardOrBackward);
@@ -133,12 +130,11 @@ class SearchingSteps {
         Cell required = new Cell(field[y + 1][x]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(field[y][x], field[y + 1][x]);
-        boolean pathFound = checkIfPath(field[y][x], field[y + 1][x]);
         if (required.isBase()) {
             Alien alien = (Alien) field[y + 1][x].getItem();
             alien.getAlienStates().remove(DOWN);
             alien.getAlienStates().addAll(Arrays.asList(UP, MAKE_A_STEP));
-        } else if (!resourceFound && !pathFound) {
+        } else if (!resourceFound && !checkIfPath(field[y][x], field[y + 1][x])) {
             field[y + 1][x].setItem(field[y][x].getItem());
             Alien alien = (Alien) field[y + 1][x].getItem();
             alien.getAlienStates().remove(forwardOrBackward);
@@ -153,13 +149,11 @@ class SearchingSteps {
         Cell required = new Cell(cells[x - 1]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], required);
-        boolean pathFound = checkIfPath(cells[x], required);
-
         if (required.isBase()) {
             Alien alien = (Alien) cells[x].getItem();
             alien.getAlienStates().remove(BACKWARD);
             alien.getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, FORWARD));
-        } else if (!resourceFound && !pathFound) {
+        } else if (!resourceFound && !checkIfPath(cells[x], required)) {
             cells[x - 1].setItem(cells[x].getItem());
             Alien alien = (Alien) cells[x - 1].getItem();
             alien.getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, BACKWARD, SEARCHING));
@@ -172,12 +166,11 @@ class SearchingSteps {
         Cell required = new Cell(cells[x + 1]);
         nullIfEmptyResource(required);
         boolean resourceFound = checkIfResource(cells[x], cells[x + 1]);
-        boolean pathFound = checkIfPath(cells[x], cells[x + 1]);
         if (required.isBase()) {
             Alien alien = (Alien) cells[x + 1].getItem();
             alien.getAlienStates().remove(FORWARD);
             alien.getAlienStates().addAll(Arrays.asList(MAKE_A_STEP, BACKWARD));
-        } else if (!resourceFound && !pathFound) {
+        } else if (!resourceFound && !checkIfPath(cells[x], cells[x + 1])) {
             cells[x + 1].setItem(cells[x].getItem());
             Alien alien = (Alien) cells[x + 1].getItem();
             if (alien.getAlienStates().contains(UP)) {
