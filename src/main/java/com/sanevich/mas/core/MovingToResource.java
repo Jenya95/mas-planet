@@ -29,7 +29,7 @@ class MovingToResource {
                 int xPosRes = alien.getRouteToBase().get(lastIndex).getxPosition();
                 Resource resource = (Resource) field[yPosRes][xPosRes].getItem();
                 alien.getAlienStates().remove(MOVING_TO_RESOURCE);
-                if (resource.getSize() > 0) {
+                if (resource != null && resource.getSize() > 0) {
                     collectResource(alien, resource);
                     alien.getAlienStates().add(MOVING_TO_BASE);
                 } else {

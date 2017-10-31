@@ -142,6 +142,10 @@ public class Steps {
             planet.getField()[point.getyPosition()][point.getxPosition()].setPath(false);
         }
 
+        //уберем тогда же ресурс с карты
+        planet.getField()[alien.getRouteToBase().get(alien.getRouteToBase().size()-1).getyPosition()][alien
+                .getRouteToBase().get(alien.getRouteToBase().size()-1).getxPosition()].setItem(null);
+
         Integer sumOfResources = resources
                 .stream()
                 .map(Resource::getSize)
