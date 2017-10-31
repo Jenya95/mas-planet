@@ -1,4 +1,4 @@
-package com.sanevich.mas.service;
+package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 import static com.sanevich.mas.model.item.AlienState.*;
 import static com.sanevich.mas.model.item.AlienState.DOWN;
-import static com.sanevich.mas.service.Steps.checkIfPath;
-import static com.sanevich.mas.service.Steps.checkIfResource;
+import static com.sanevich.mas.core.Steps.checkIfPath;
+import static com.sanevich.mas.core.Steps.checkIfResource;
 
 class SearchingSteps {
 

@@ -1,4 +1,4 @@
-package com.sanevich.mas.service;
+package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
@@ -8,7 +8,7 @@ import com.sanevich.mas.pathfinding.Point;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_BASE;
 import static com.sanevich.mas.model.item.AlienState.MOVING_TO_RESOURCE;
 import static com.sanevich.mas.model.item.AlienState.SEARCHING;
-import static com.sanevich.mas.service.Steps.*;
+import static com.sanevich.mas.core.Steps.*;
 
 class MovingToResource {
     static void makeStepToResource(int y, int x, Cell[][] field) {

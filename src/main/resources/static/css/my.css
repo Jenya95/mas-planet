@@ -2,7 +2,6 @@
     background-color: green;
 }
 .treasures {
-    /*background-image: url(/images/treasures.png);*/
     background-color: yellow;
 }
 .alien {
@@ -10,4 +9,9 @@
 }
 .base {
     background-color: red !important;;
+}
+.drawCell {
+    height: 40px;
+    width: 40px;
+    text-align: center
 }

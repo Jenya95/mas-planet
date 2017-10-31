@@ -1,4 +1,4 @@
-package com.sanevich.mas.service;
+package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.*;
 import com.sanevich.mas.model.item.*;
@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.sanevich.mas.model.item.AlienState.*;
-import static com.sanevich.mas.service.MovingToBase.makeStepToBase;
-import static com.sanevich.mas.service.MovingToResource.makeStepToResource;
-import static com.sanevich.mas.service.SearchingSteps.makeSimpleStep;
+import static com.sanevich.mas.core.MovingToBase.makeStepToBase;
+import static com.sanevich.mas.core.MovingToResource.makeStepToResource;
+import static com.sanevich.mas.core.SearchingSteps.makeSimpleStep;
 
 public class Steps {
 

@@ -26,8 +26,7 @@
     <table class="table-bordered">
         <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
             <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
-                style="height: 30px; width: 30px; text-align: center"
-                th:class="${columnFiled.isPath()} ? 'path' : null"
+                th:class="${columnFiled.isPath()} ? 'path drawCell' : 'drawCell'"
                 th:classappend="${columnFiled.isResource()} ? 'treasures' : (${columnFiled.isAlien()} ? 'alien' : (${columnFiled.isBase()} ? 'base' : null))">
             </td>
         </tr>
