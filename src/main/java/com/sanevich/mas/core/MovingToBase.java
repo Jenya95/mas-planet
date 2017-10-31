@@ -1,4 +1,4 @@
-package com.sanevich.mas.service;
+package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.sanevich.mas.model.item.AlienState.*;
-import static com.sanevich.mas.service.Steps.clearPathOnScreen;
-import static com.sanevich.mas.service.Steps.didMakeStep;
-import static com.sanevich.mas.service.Steps.moveAlien;
+import static com.sanevich.mas.core.Steps.clearPathOnScreen;
+import static com.sanevich.mas.core.Steps.didMakeStep;
+import static com.sanevich.mas.core.Steps.moveAlien;
 
 class MovingToBase {
 
