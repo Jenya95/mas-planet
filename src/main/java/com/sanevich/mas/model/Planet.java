@@ -2,7 +2,6 @@ package com.sanevich.mas.model;
 
 import com.sanevich.mas.core.CommonData;
 import com.sanevich.mas.model.item.Item;
-import com.sanevich.mas.pathfinding.Point;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

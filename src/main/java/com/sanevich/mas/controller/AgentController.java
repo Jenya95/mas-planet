@@ -4,6 +4,10 @@ import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.Planet;
 import com.sanevich.mas.core.CommonData;
 import com.sanevich.mas.core.Steps;
+import com.sanevich.mas.model.item.Alien;
+import com.sanevich.mas.model.item.Base;
+import com.sanevich.mas.model.item.Item;
+import com.sanevich.mas.model.item.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import sun.management.Agent;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+import static com.sanevich.mas.core.CommonData.*;
+import static com.sanevich.mas.core.Steps.setStepCount;
 
 @Controller
 @RequestMapping("/")
@@ -34,7 +44,7 @@ public class AgentController {
     public String showTable(Model model) throws IOException {
         String msg = "";
 
-        if (!CommonData.goalAchieved) {
+        if (!goalAchieved) {
             Steps.doStep(planet);
         } else {
             msg = "Цель достигнута! Все ресурсы собраны!";
@@ -68,9 +78,50 @@ public class AgentController {
                                @RequestParam(value = "numOfAgents") Integer numOfAgents,
                                @RequestParam(value = "numOfResources") Integer numOfResources) throws ParseException {
 
-        //todo generate some agents and resources and put them to the random places
+        planet.initializeFiled();
+        Random rand = new Random();
+
+        for (int i = 0; i < numOfAgents; i++) {
+            Alien alien = Alien.builder()
+                    .sizeOfBag(rand.nextInt(5) + 1)
+                    .name("a" + i)
+                    .alienStates(new HashSet<>())
+                    .build();
+
+            putItemInRandomCell(rand, alien);
+        }
+
+        for (int i = 0; i < numOfResources; i++) {
+            Resource resource = new Resource(rand.nextInt(25) + 1, "r"+i);
+
+            putItemInRandomCell(rand, resource);
+        }
+
+        Base base = new Base();
+        planet.addItemOnField(base, X_BASE_COORDINATE, Y_BASE_COORDINATE);
+        goalAchieved = false;
+        setStepCount(0);
 
         redirectAttributes.addFlashAttribute("start", true);
-        return "redirect:/generate";
+        return "redirect:/";
+    }
+
+    private void putItemInRandomCell(Random rand, Item item) {
+        int x = rand.nextInt(HEIGHT_MAP);
+        int y = rand.nextInt(WIDTH_MAP);
+        try {
+            while (true) {
+                if (planet.getField()[x][y].getItem() == null) {
+                    planet.addItemOnField(item, x, y);
+                    break;
+                } else {
+                    x = rand.nextInt(HEIGHT_MAP);
+                    y = rand.nextInt(WIDTH_MAP);
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println(x + "," + y);
+            e.printStackTrace();
+        }
     }
 }

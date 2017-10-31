@@ -175,4 +175,8 @@ public class Steps {
     static int getStepCount() {
         return stepCount;
     }
+
+    public static void setStepCount(int count) {
+        stepCount = count;
+    }
 }
