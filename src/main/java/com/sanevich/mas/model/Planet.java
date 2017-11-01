@@ -33,7 +33,7 @@ public class Planet {
                         x[i] = new Cell();
                     }
                 });
-        Base base = new Base();
+        Base base = new Base(0);
         this.addItemOnField(base, X_BASE_COORDINATE, Y_BASE_COORDINATE);
         goalAchieved = false;
         setStepCount(0);
@@ -44,5 +44,9 @@ public class Planet {
 
     public void addItemOnField(Item item, int x, int y) {
         field[x][y].setItem(item);
+    }
+
+    public Base getBase() {
+        return (Base) field[X_BASE_COORDINATE][Y_BASE_COORDINATE].getItem();
     }
 }

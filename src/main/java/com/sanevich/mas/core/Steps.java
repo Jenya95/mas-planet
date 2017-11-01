@@ -70,7 +70,6 @@ public class Steps {
                 .forEach(x -> x.
                         forEach(point -> planet.getField()[point.getyPosition()][point.getxPosition()]
                 .setPath(true)));
-
         stepCount++;
     }
 

@@ -11,7 +11,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Builder
-//@ToString
+//@ToString(exclude = "routeToBase")
 public class Alien extends Item {
     private int sizeOfBag;
     private Set<AlienState> alienStates;

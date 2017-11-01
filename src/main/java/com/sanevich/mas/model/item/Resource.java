@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, exclude = "size")
 @AllArgsConstructor
 //@ToString
 public class Resource extends Item {

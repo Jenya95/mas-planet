@@ -47,7 +47,7 @@ public class AgentController {
         if (!goalAchieved) {
             Steps.doStep(planet);
         } else {
-            msg = "Цель достигнута! Все ресурсы собраны!";
+            msg = "Цель достигнута! Собрано "+planet.getBase().getSize()+" ресурсов!";
         }
 
         List<List<Cell>> list = Arrays.stream(planet.getField())
