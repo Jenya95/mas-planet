@@ -2,6 +2,7 @@ package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
+import com.sanevich.mas.model.item.Base;
 import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
