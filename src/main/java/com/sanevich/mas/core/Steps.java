@@ -186,6 +186,10 @@ public class Steps {
         return stepCount;
     }
 
+    public static Planet getPlanet() {
+        return planet;
+    }
+
     public static void setStepCount(int count) {
         stepCount = count;
     }
