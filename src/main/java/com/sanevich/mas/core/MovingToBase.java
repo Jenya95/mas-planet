@@ -2,14 +2,15 @@ package com.sanevich.mas.core;
 
 import com.sanevich.mas.model.Cell;
 import com.sanevich.mas.model.item.Alien;
+import com.sanevich.mas.model.item.Base;
 import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.sanevich.mas.core.CommonData.X_BASE_COORDINATE;
+import static com.sanevich.mas.core.CommonData.Y_BASE_COORDINATE;
+import static com.sanevich.mas.core.Steps.*;
 import static com.sanevich.mas.model.item.AlienState.*;
-import static com.sanevich.mas.core.Steps.clearPathOnScreen;
-import static com.sanevich.mas.core.Steps.didMakeStep;
-import static com.sanevich.mas.core.Steps.moveAlien;
 
 class MovingToBase {
 
@@ -38,6 +39,7 @@ class MovingToBase {
                 }
                 //агент дошел до базы
                 else {
+                    getPlanet().getBase().increaseSize(alien.getResourcesInBag());
                     log.info("Alien {} dropped {} resources at base", alien.getName(), alien.getResourcesInBag());
                     alien.setResourcesInBag(0);
                     alien.getAlienStates().remove(MOVING_TO_BASE);
@@ -45,6 +47,7 @@ class MovingToBase {
                     if (alien.getAlienStates().contains(LAST_MOVE_TO_BASE)) {
                         clearPathOnScreen(alien);
                         alien.getAlienStates().remove(LAST_MOVE_TO_BASE);
+                        alien.getAlienStates().remove(MOVING_TO_RESOURCE);
                         alien.getAlienStates().add(SEARCHING);
                     } else {
                         alien.getAlienStates().add(MOVING_TO_RESOURCE);

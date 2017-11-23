@@ -21,7 +21,7 @@ public class MasConfiguration {
                 .field(new Cell[HEIGHT_MAP][WIDTH_MAP])
                 .build();
 
-        Base base = new Base();
+        Base base = new Base(0);
 
         Alien a1 = Alien.builder()
                 .sizeOfBag(3)

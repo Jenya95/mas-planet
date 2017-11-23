@@ -6,7 +6,6 @@ import com.sanevich.mas.pathfinding.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.*;
 
 import static com.sanevich.mas.core.CommonData.*;
@@ -25,7 +24,7 @@ public class Steps {
     private static Map<Point,List<Point>> routesToBase = new HashMap<>();
     private static Set<Resource> resources = new HashSet<>();
 
-    public static void doStep(Planet planetOfAlien) throws IOException {
+    public static void doStep(Planet planetOfAlien) {
         Steps.planet = planetOfAlien;
         for (int i = 0; i < planet.getField().length; i++) {
             for (int j = 0; j < planet.getField()[i].length; j++) {
@@ -65,6 +64,12 @@ public class Steps {
                 }
             }
         }
+
+        routesToBase.
+                values()
+                .forEach(x -> x.
+                        forEach(point -> planet.getField()[point.getyPosition()][point.getxPosition()]
+                .setPath(true)));
         stepCount++;
     }
 
@@ -120,25 +125,29 @@ public class Steps {
                 alien.getAlienStates().remove(SEARCHING);
                 alien.getAlienStates().add(MOVING_TO_BASE);
 
-                if (resource.getSize() > 0) {
-                    collectResource(alien, resource);
+                collectResource(alien, resource);
 
-                    Point startPoint = new Point(required.getX(), required.getY());
-                    Point basePoint = new Point(X_BASE_COORDINATE, Y_BASE_COORDINATE);
+                Point startPoint = new Point(required.getX(), required.getY());
+                Point basePoint = new Point(X_BASE_COORDINATE, Y_BASE_COORDINATE);
 
-                    List<Point> route = TrackUtilities.findRoute(startPoint, basePoint, planet.getField());
+                List<Point> route = TrackUtilities.findRoute(startPoint, basePoint, planet.getField());
+                if (route != null) {
                     route.add(new Point(required.getX(), required.getY()));
-                    alien.setRouteToBase(route);
-
-                    routesToBase.put(startPoint, route);
-                    return true;
                 }
+                alien.setRouteToBase(route);
+
+                routesToBase.put(startPoint, route);
+                return true;
+
             }
         }
         return false;
     }
 
     static void clearPathOnScreen(Alien alien) {
+
+        routesToBase.values().remove(alien.getRouteToBase());
+
         for (Point point: alien.getRouteToBase()) {
             planet.getField()[point.getyPosition()][point.getxPosition()].setPath(false);
         }
@@ -174,5 +183,21 @@ public class Steps {
 
     static int getStepCount() {
         return stepCount;
+    }
+
+    public static Planet getPlanet() {
+        return planet;
+    }
+
+    public static void setStepCount(int count) {
+        stepCount = count;
+    }
+
+    public static void setResources(Set<Resource> resources) {
+        Steps.resources = resources;
+    }
+
+    public static void setRoutesToBase(Map<Point, List<Point>> routesToBase) {
+        Steps.routesToBase = routesToBase;
     }
 }

@@ -20,25 +20,47 @@
 <script>
     let interval;
     let message;
+    let start;
 </script>
+    <div id="planet" th:fragment="planet">
+        <table class="table-bordered">
+            <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
+                <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
+                    th:class="${columnFiled.isPath()} ? 'path drawCell' : 'drawCell'"
+                    th:classappend="${columnFiled.isResource()} ? 'treasures' : (${columnFiled.isAlien()} ? 'alien' : (${columnFiled.isBase()} ? 'base' : null))">
+                </td>
+            </tr>
+        </table>
+        <script th:inline="javascript">
+            message = /*[[${msg}]]*/ null;
+            start = /*[[${start}]]*/ null;
 
-<div id="planet" th:fragment="planet">
-    <table class="table-bordered">
-        <tr th:each="rowFiled: ${planetField}" style="height: 30px; width: 30px">
-            <td th:each="columnFiled : ${rowFiled}" th:text="${columnFiled.getItem()}"
-                th:class="${columnFiled.isPath()} ? 'path drawCell' : 'drawCell'"
-                th:classappend="${columnFiled.isResource()} ? 'treasures' : (${columnFiled.isAlien()} ? 'alien' : (${columnFiled.isBase()} ? 'base' : null))">
-            </td>
-        </tr>
-    </table>
-    <script th:inline="javascript">
-        message = /*[[${msg}]]*/ null;
+            if (message !== null) {
+                clearInterval(interval);
+                bootbox.alert(message);
+            }
 
-        if (message !== null) {
-            clearInterval(interval);
-            bootbox.alert(message);
-        }
-    </script>
+            if (start !== null) {
+                slide();
+            }
+        </script>
+    </div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <form th:action="@{/start-new-planet}" method="post">
+            <div class="form-group">
+                <label for="numOfAgents">Number of agents</label>
+                <input type="number" class="form-control" id="numOfAgents" placeholder="3" name="numOfAgents"/>
+            </div>
+            <div class="form-group">
+                <label for="numOfResources">Number of resources</label>
+                <input type="number" class="form-control" id="numOfResources" placeholder="3" name="numOfResources"/>
+            </div>
+            <button type="submit" class="btn btn-default">Start!</button>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
 </div>
 <script>
     window.onload = function start() {

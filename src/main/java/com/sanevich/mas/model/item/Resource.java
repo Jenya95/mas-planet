@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, exclude = "size")
 @AllArgsConstructor
 //@ToString
 public class Resource extends Item {
@@ -13,6 +13,6 @@ public class Resource extends Item {
 
     @Override
     public String toString() {
-        return String.valueOf(size);
+        return String.valueOf(size + " " + name);
     }
 }

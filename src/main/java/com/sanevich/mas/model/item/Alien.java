@@ -11,7 +11,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Builder
-//@ToString
+//@ToString(exclude = "routeToBase")
 public class Alien extends Item {
     private int sizeOfBag;
     private Set<AlienState> alienStates;
@@ -21,6 +21,6 @@ public class Alien extends Item {
 
     @Override
     public String toString() {
-        return String.valueOf(resourcesInBag)+"/"+sizeOfBag;
+        return String.valueOf(resourcesInBag)+"/"+sizeOfBag + " " + name;
     }
 }
