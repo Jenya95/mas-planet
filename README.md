@@ -9,5 +9,5 @@ There is a planet with some resources. There are aliens which can collect resour
 * Frontend is simple html+css+js
 
 ## Start application
-1. Run java code from IDE or build jar with maven and run it
+1. Run SpringBootApplocation from IDE or build jar with maven and run it
 2. http://localhost:8080
